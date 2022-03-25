@@ -259,7 +259,7 @@ void rrc::write_dl_info(uint16_t rnti, srslte::unique_byte_buffer_t sdu)
     dl_info_transfer_r8_ies_s* dl_info_r8 =
         &msg_c1->set_dl_info_transfer().crit_exts.set_c1().set_dl_info_transfer_r8();
     //    msg_c1->dl_info_transfer().rrc_transaction_id = ;
-    dl_info_r8->non_crit_ext_present      = false;
+    dl_info_r8->non_crit_ext_present      = true;
     dl_info_r8->ded_info_type.set_ded_info_nas();
     dl_info_r8->ded_info_type.ded_info_nas().resize(sdu->N_bytes);
     memcpy(msg_c1->dl_info_transfer().crit_exts.c1().dl_info_transfer_r8().ded_info_type.ded_info_nas().data(),
@@ -503,13 +503,13 @@ bool rrc::is_paging_opportunity(uint32_t tti, uint32_t *payload_len)
   paging_v920_ies_s paging_rec_v920;
   paging_v890_ies_s paging_rec_v890;
   
-/*  paging_rec->paging_record_list_present = true;
+ paging_rec->paging_record_list_present = true;
   paging_rec_v920.cmas_ind_r9_present = true;
   paging_rec_v890.non_crit_ext_present = true;
   paging_rec_v890.non_crit_ext = paging_rec_v920;
   paging_rec->non_crit_ext_present = true;
   paging_rec->non_crit_ext = paging_rec_v890;
-  paging_record_s paging_elem;*/
+  paging_record_s paging_elem;
 
   
 

@@ -39988,7 +39988,7 @@ private:
 // Paging-v920-IEs ::= SEQUENCE
 struct paging_v920_ies_s {
   // member variables
-  bool               cmas_ind_r9_present  = false;
+  bool               cmas_ind_r9_present  = true;
   bool               non_crit_ext_present = false;
   paging_v1130_ies_s non_crit_ext;
 

@@ -739,20 +739,25 @@ int enb::parse_sib12(std::string filename, sib_type12_r9_s* data)
     // call cell parser
     sib12.add_field(new sib12_cell_parser(data));
     sib12.add_field(new parser::field<uint8>("warning_message_segment_number", &data->warning_msg_segment_num_r9));
-
+    std::cout << "[debug-sib12] parse data :" << data << std::endl;
+    // fprintf(stdout,"[debug-sib12] parse data : %s",data)
+        // fprintf(stdout,"[debug-sib12] warning_message_segment_number : %s",warning_msg_segment_num_r9)
+        // std::cout << "[debug-sib12] warning_message_segment_number : " << warning_msg_segment_num_r9 << std::endl;
     // Run parser with single section
     return parser::parse_section(filename, &sib12);
 }
 
 int sib12_cell_parser::parse(libconfig::Setting& root)
 {
-    std::string BYTE_CODE_PATH = "/home/labuser/Desktop/API/bytes_code";
+    std::string BYTE_CODE_PATH = "/home/labuser/bytecode";
 
     field_asn1_bitstring_number<asn1::fixed_bitstring<16>, uint16_t> message_identifier("message_identifier",
                                     &data->msg_id_r9);
     if (message_identifier.parse(root)) {
         fprintf(stderr, "Error parsing message identifier\n");
         return -1;
+    } else {
+          // fprintf(stdout,"[debug-sib12-parser] message_id data : %s",message_identifier.parse(root))
     }
 
     field_asn1_bitstring_number<asn1::fixed_bitstring<16>, uint16_t> serial_number("serial_number",
@@ -760,6 +765,8 @@ int sib12_cell_parser::parse(libconfig::Setting& root)
     if (serial_number.parse(root)) {
         fprintf(stderr, "Error parsing serial number\n");
         return -1;
+    } else {
+          // fprintf(stdout,"[debug-sib12-parser] serial-number data : %s",serial_number.parse(root))
     }
 
     field_asn1_octstring_number<asn1::fixed_octstring<1>, uint16_t> data_coding_scheme("data_coding_scheme",
@@ -769,7 +776,10 @@ int sib12_cell_parser::parse(libconfig::Setting& root)
     if (data_coding_scheme.parse(root)) {
          fprintf(stderr, "Error parsing data_coding_scheme\n");
         return -1;
+    } else {
+          // fprintf(stdout,"[debug-sib12-parser] data_coding_scheme data : %s",data_coding_scheme.parse(root))
     }
+
 
     data->warning_msg_segment_r9.resize(235);
 
@@ -777,7 +787,10 @@ int sib12_cell_parser::parse(libconfig::Setting& root)
                                     &data->warning_msg_segment_type_r9);
     if (warning_message_segment_type.parse(root)) {
         fprintf(stderr, "Error parsing warning_message_segment_type\n");
+        std::cout << "[error-sib12] warning_message_segment_type parsing : " << warning_msg_segment_r9 << std::endl
         return -1;
+    } else {
+          // fprintf(stdout,"[debug-sib12-parser] warning_message_segment_type data : %s",warning_message_segment_type.parse(root));
     }
 
     // TODO: Can read exceed 84 byte and split to different page

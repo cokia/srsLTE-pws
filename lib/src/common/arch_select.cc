@@ -86,7 +86,7 @@ const char* x86_get_isa()
 #ifdef IS_ARM
 const char* arm_get_isa()
 {
-  if (getauxval(AT_HWCAP) & HWCAP_NEON) {
+  if (getauxval(AT_HWCAP) & HWCAP_AES) {
     return "neon";
   } else {
     return "generic";
